@@ -1,0 +1,57 @@
+TUGAS 1
+1)
+2)
+wefie = imread('22610.jpg');        %untuk mengambil foto
+keabuan = (wefie(:,:,1)+wefie(:,:,2)+wefie(:,:,3))/3; %untuk merubah rata-rata citra berwarna menjadi citra keabuan dengan menggambil nilai RGBnya
+imshow(keabuan);  %untuk menampilkan hasil dari rata-rata citra keabuan
+
+3)
+doubleKeabuan = im2double(keabuan);   %untuk merubah citra foto menjadi bilangan double
+transformasi_log1 = 2*log(1+doubleKeabuan); %transformasi logaritmik dengan konstanta 2
+transformasi_log2 = 4*log(1+doubleKeabuan); %transformasi logaritmik dengan konstanta 4
+transformasi_log3 = 8*log(1+doubleKeabuan); %transformasi logaritmik dengan konstanta 8
+
+%menampilkan citra foto
+subplot(2,2,1),imshow(keabuan),title('Foto Asli');  %menampilkan citra foto keabuan
+subplot(2,2,2),imshow(transformasi_log1),title('dengan C = 2’); %menampilkan citra keabuan dengan konstanta 2
+subplot(2,2,3),imshow(transformasi_log2),title('dengan C = 4’); %menampilkan citra keabuan dengan konstanta 4
+subplot(2,2,4),imshow(transformasi_log3),title('dengan C = 8'); %menampilkan citra keabuan dengan konstanta 8
+
+%menampilkan histogram
+subplot(2,2,1),imhist(doubleKeabuan),title('Histogram Foto Asli'); %menampilkan histogram citra keabuan
+subplot(2,2,2),imhist(transformasi_log1),title('Histogram dengan C = 2'); %menampilkan histogram citra keabuan dengan konstanta 2
+subplot(2,2,3),imhist(transformasi_log2),title('Histogram dengan C = 4'); %menampilkan histogram citra keabuan dengan konstanta 4
+subplot(2,2,4),imhist(transformasi_log3),title('Histogram dengan C = 8'); %menampilkan histogram citra keabuan dengan konstanta 8
+
+TUGAS 2
+1)
+2)
+ditambah = keabuan + 80; %menambah citra keabuan dengan 80
+dikurang = keabuan - 80; %mengurangi citra keabuan dengan 80
+
+%menampilkan citra foto
+subplot(1,3,1),imshow(keabuan),title('Foto Asli'); menampilkan citra foto keabuan
+subplot(1,3,2),imshow(ditambah),title('ditambah 80'); %menampilkan citra keabuan yang ditambah 80
+subplot(1,3,3),imshow(dikurang),title('dikurang 80'); %menampilkan citra foto keabuan yang dikurang 80
+
+%menampilkan histogram
+subplot(1,3,1),imhist(keabuan),title('Histogram Foto Asli'); %menampilkan histogram citra keabuan
+subplot(1,3,2),imhist(ditambah),title('Histogram ditambah 80'); %menampilkan histogram citra keabuan yang ditambah 80
+subplot(1,3,3), imhist(dikurang),title('Histogram dikurang 80'); %menampilkan histogram citra keabuan yang dikurang 80
+
+3)
+SxSobel = [-1 0 1;-2 0 2; -1 0 1]   %mengambil matriks sobel
+SxSobel = [1 2 1; -2 4 -2; -1 -2 -1] %mengambil matriks sobel
+sobel1Sx = conv2(ditambah, SxSobel); %melakukan konvolusi terhadap matrik x
+sobel1Sy = conv2(ditambah, SxSobel); %melakukan konvolusi terhadap matrik y
+tambahSobel = abs(sobel1Sx)+ abs(sobel1Sy); %mencari nilai sobel dengan menambahkan hasil konvolusi matrik x dengan matrik y
+
+sobel2Sx = conv2(dikurang, SxSobel); %melakukan konvolusi terhadap sumbu x
+sobel2Sy = conv2(dikurang, SxSobel); %melakukan konvolusi terhadap sumbu y
+kurangSobel = abs(sobel2Sx)+ abs(sobel2Sy); %mencari nilai sobel dengan menambahkan hasil konvolusi matrik x dengan matrik y
+
+subplot(1,4,3),imshow(ditambah),title('ditambah 80'); %menampilkan citra keabuan ditambah 80
+subplot(1,4,4),imshow(dikurang),title('dikurang 80'); menampilkan citra keabuan dikurang 80
+subplot(1,4,1),imshow(uint8(tambahSobel)),title('Sobel Keabuan +80'); menampilkan citra keabuan ditambah 80 dengan filter sobel
+subplot(1,4,2),imshow(uint8(kurangSobel)),title('Sobel Keabuan -80'); menampilkan citra keabuan ditambah 80 dengan filter sobel
+
